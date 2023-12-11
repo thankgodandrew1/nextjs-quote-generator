@@ -1,24 +1,24 @@
 import { useState } from 'react';
 
-export default function QuoteDisplay({ quote, author, isLoading, onNewQuote }) {
+export default function QuoteDisplay({ quote, author, loading, onNewQuote, children }) {
   return (
-    <div className="wrapper">
-      <h1 className="text-2xl mb-4">Quote of the Day</h1>
-      <div className="content text-center">
-        <div className="quote-area flex items-center">
-          <i className="fas fa-quote-left mr-2"></i>
-          <p className="quote text-lg">{quote}</p>
-          <i className="fas fa-quote-right ml-2"></i>
+    <div className='w-[605px]  p-[40px] bg-white rounded-[20px] min-h-[50vh]'>
+      <h1 className='text-4xl font-semibold text-center mb-4'>Quote of the Day</h1>
+      <div className='text-center'>
+        <div className='flex justify-center'>
+          <p className='text-2xl text-center break-words'>&quot;{quote}&quot;</p>
         </div>
-        <div className="author mt-2">
-          <span>__</span>
-          <span className="name">{author}</span>
+        <div className='mt-5 flex text-lg italic justify-end'>
+          <span className='mt-[-7px] mr-[5px]'>__</span>
+          <span className='name'> {author}</span>
         </div>
       </div>
-      <div className="buttons flex justify-center mt-4">
+      <div className='buttons flex  justify-between mt-4 border-t-2  border-solid border-t-[#ccc]'>
+        {children}
         <button
           onClick={onNewQuote}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+          className='px-[22px] py-[2px] text-[16px] bg-blue-500 border-none 
+          text-white rounded-[30px] m-[10px] font-semibold hover:bg-blue-600 focus:outline-none'
         >
           New Quote
         </button>
