@@ -6,8 +6,14 @@ module.exports = {
     'tailwind.config.{js,cjs,mjs,ts}'
   ],
   theme: {
-    extend: {},
+    screens: {
+      sm: '560px',
+      md: '900px',
+      xmd: '1100px',
+      lg: '1280px',
+      xl: '1440px'
+    },
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 }
-

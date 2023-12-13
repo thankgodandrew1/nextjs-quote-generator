@@ -1,6 +1,13 @@
 import { useState } from 'react';
 
-export default function QuoteDisplay({ quote, author, loading, onNewQuote, children }) {
+interface QuoteDisplayProps {
+  quote: string;
+  author: string;
+  loading: boolean;
+  onNewQuote: () => void;
+  children: React.ReactNode;
+}
+export default function QuoteDisplay({ quote, author, loading, onNewQuote, children }: QuoteDisplayProps) {
   return (
     <div className='w-[605px]  p-[40px] bg-white rounded-[20px] min-h-[50vh]'>
       <h1 className='text-4xl font-semibold text-center mb-4'>Quote of the Day</h1>

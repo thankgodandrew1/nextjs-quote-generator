@@ -13,8 +13,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'GET') {
-      const quotes = await Quote.find({ userId: userSub });
-      res.status(200).json({ quotes });
+      const { quoteId } = req.query;
+      // console.log('Received ID :', quoteId)
+
+      if (quoteId) {
+        try {
+          const quote = await Quote.findOne({ _id: quoteId, userId: userSub });
+          // console.log('Queried quote:', quote)
+          if (!quote) {
+            return res.status(404).json({ error: 'Quote not found' });
+          }
+          return res.status(200).json({ quote });
+        } catch (error) {
+          return res.status(500).json({ error: 'Internal server error' });
+        }
+      } else {
+        const quotes = await Quote.find({ userId: userSub });
+        return res.status(200).json({ quotes });
+      }
     } else if (req.method === 'POST') {
       try {
         const { content, categories, tags, author } = req.body;
@@ -34,20 +50,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error('Error saving quote to the database:', error);
         res.status(500).json({ error: 'Error saving quote' });
       }
-    }else if (req.method === 'PUT') {
+    } else if (req.method === 'PUT') {
       const { id, content, categories, tags, author } = req.body;
 
+      const updatedQuoteData = {
+        content,
+        categories,
+        tags,
+        author,
+        createdAt: new Date(),
+      };
       const updatedQuote = await Quote.findOneAndUpdate(
         { _id: id, userId: userSub },
-        {
-          $set: {
-            content,
-            categories,
-            tags,
-            author,
-            createdAt: new Date(),
-          },
-        },
+        { $set: updatedQuoteData},
         { new: true }
       );
 
@@ -57,7 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       res.status(200).json({ success: true, quote: updatedQuote });
     } else if (req.method === 'DELETE') {
-      const { id } = req.body;
+      const { id } = req.query;
+      // console.log('Received ID for deletion:', id)
 
       const deletedQuote = await Quote.findOneAndDelete({ _id: id, userId: userSub });
 

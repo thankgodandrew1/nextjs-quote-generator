@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
 
-export default function Pagination({ totalPages, setCurrentPage }) {
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+interface PaginationProps {
+  totalPages: number;
+  setCurrentPage: (pageNumber: number) => void;
+}
 
-  const handlePagination = (pageNumber) => {
+export default function Pagination({ totalPages, setCurrentPage }: PaginationProps) {
+  const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
+
+  const handlePagination = (pageNumber: number) => {
     setCurrentPageNumber(pageNumber);
     setCurrentPage(pageNumber);
   };
 
+  // Generating an array of numbers from 1 to totalPages
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
   return (
     <div className='my-4'>
       <ul className='flex'>
-        {[...Array(totalPages).keys()].map((pageNumber) => (
+        {pageNumbers.map((pageNumber) => (
           <li key={pageNumber}>
             <button
-              onClick={() => handlePagination(pageNumber + 1)}
+              onClick={() => handlePagination(pageNumber)}
               className={`px-3 py-1 mx-1 ${
-                pageNumber + 1 === currentPageNumber ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                pageNumber === currentPageNumber ? 'bg-blue-500 text-white' : 'bg-gray-300'
               } rounded-md`}
             >
-              {pageNumber + 1}
+              {pageNumber}
             </button>
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}

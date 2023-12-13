@@ -1,20 +1,24 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import QuoteDisplay from '../components/QuoteDisplay';
-import SearchByTags from '../components/SearchByTags';
-import ShareButtons from '../components/ShareButtons';
-import Loader from '../components/Loader';
-import ErrorComponent from '../components/ErrorComponent';
+import Layout from '@/components/Layout';
+import QuoteDisplay from '@/components/QuoteDisplay';
+import SearchByTags from '@/components/SearchByTags';
+import ShareButtons from '@/components/ShareButtons';
+import Loader from '@/components/Loader';
+import ErrorComponent from '@/components/ErrorComponent';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Head from 'next/head';
 
 
-const Index = () => {
+export const siteTitle = 'Home | Be Inspired';
+
+
+export default function Index() {
   const {user, isLoading, error} = useUser();
   const [quote, setQuote] = useState('');
   const [author, setAuthor] = useState('')
   const [loading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fetchRandomQuote = async () => {
     try {
@@ -26,7 +30,7 @@ const Index = () => {
       const data = await response.json();
       setQuote(data.content);
       setAuthor(data.author);
-      setErrorMessage(null);
+      setErrorMessage('');
     } catch (error) {
       setErrorMessage('Error fetching quote. Please try again.');
     } finally {
@@ -39,6 +43,13 @@ const Index = () => {
   }, []);
   return (
     <Layout>
+      <Head>
+          <title>
+              {siteTitle}
+          </title>
+          <meta name='description' 
+          content='Home Page for Be Inspired Quote Generator Website | Brigham Young University - Idaho'></meta>
+        </Head>
       {user ? (
       <main className='p-4 font-mono'>
         {errorMessage && <ErrorComponent error={errorMessage} />}
@@ -73,5 +84,3 @@ const Index = () => {
     </Layout>
   );
 };
-
-export default Index;

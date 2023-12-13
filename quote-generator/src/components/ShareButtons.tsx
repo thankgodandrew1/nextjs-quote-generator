@@ -1,13 +1,16 @@
 import React from 'react';
 import { FaTwitter, FaFacebook, FaCopy, FaVolumeUp } from 'react-icons/fa';
-
-export default function ShareButtons({ quoteContent, authorName }) {
+interface DQuote {
+  quoteContent: string;
+  authorName: string
+}
+export default function ShareButtons({ quoteContent, authorName }: DQuote) {
   const tweetUrl = `https://twitter.com/intent/tweet?text=${quoteContent} - ${authorName}`;
   const isClient = typeof window !== 'undefined';
 
   let facebookShareUrl = '';
   if (isClient) {
-    // Only access window object if running on the client-side
+  
     facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`;
   }
 

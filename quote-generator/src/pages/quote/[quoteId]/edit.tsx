@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 interface Quote {
   _id: string;
@@ -12,8 +13,9 @@ interface Quote {
 }
 
 const EditQuote = () => {
+  const { user } = useUser();
   const router = useRouter();
-  const { id } = router.query;
+  const { quoteId } = router.query;
   const [quote, setQuote] = useState<Quote | null>(null);
   const [updatedQuote, setUpdatedQuote] = useState<Partial<Quote>>({
     content: '',
@@ -23,31 +25,57 @@ const EditQuote = () => {
   });
 
   useEffect(() => {
-    if (id) {
-      fetch(`/api/quotes/${id}`) 
-        .then((res) => res.json())
-        .then((data) => {
-          setQuote(data.quote);
-          setUpdatedQuote(data.quote);
-        })
-        .catch((error) => {
-          console.error('Error fetching quote:', error);
-        });
-    }
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        if (user && quoteId) {
+          // console.log('ID:', quoteId);
+          const response = await fetch(`/api/quotes?quoteId=${quoteId}&userSub=${user.sub}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+          if (!response.ok) {
+            throw new Error(`Errors fetching quote: ${response.statusText}`)
+          }
+          const data = await response.json();
+          // console.log('Fetched quote:', data);
+          
+          // Update only specific fields of updatedQuote using spread operator
+          if (data && data.quote) {
+            setQuote(data.quote);
+            setUpdatedQuote({
+              content: data.quote.content,
+              categories: data.quote.categories,
+              tags: data.quote.tags,
+              author: data.quote.author,
+            });
+          };
+        }
+      } catch (error) {
+        console.error('Error fetching quote:', error);
+      }
+    };
+    fetchData();
+  }, [user, quoteId]);
 
   const handleUpdate = async () => {
     try {
-      const res = await fetch(`/api/quotes/${id}`, {
+      if (!quoteId || !user) {
+        console.error('Quote ID or user is undefined');
+        return;
+      }
+  
+      const res = await fetch(`/api/quotes?quoteId=${quoteId}&userSub=${user.sub}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedQuote),
+        body: JSON.stringify({ id: quoteId, ...updatedQuote }),
       });
-
+  
       if (res.status === 200) {
-        router.push('/quotes'); 
+        router.push('/quotes');
       } else {
         console.error('Failed to update quote');
       }
@@ -55,7 +83,6 @@ const EditQuote = () => {
       console.error('Error updating quote:', error);
     }
   };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUpdatedQuote({ ...updatedQuote, [name]: value });
