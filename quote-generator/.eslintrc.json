@@ -1,3 +1,16 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next",
+  "rules": {
+    "@next/next/no-html-link-for-pages": [
+      "error",
+      {
+        // Specify exceptions by providing an array of objects for each exception
+        // In this case, we're disabling the rule for specific href values
+        "pages": [
+          { "href": "/api/auth/logout/', resolve: 'anchor" },
+          { "href": "/api/auth/login/', resolve: 'anchor" }
+        ]
+      }
+    ]
+  }
 }
