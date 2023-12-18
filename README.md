@@ -18,7 +18,7 @@ This is a web application built using Next.js that allows users to generate, sea
 
 2. Navigate to the project directory:
 
-   cd nextjs-quote-generator, cd quote-generator
+   cd nextjs-quote-generator
    
 
 3. Install dependencies:
@@ -32,7 +32,6 @@ This is a web application built using Next.js that allows users to generate, sea
 
 To start the application:
 
-bash
 npm run dev
 # or
 yarn dev
@@ -49,15 +48,15 @@ Open your browser and go to `http://localhost:3000` to access the application.
 - MongoDB &
 - Auth0 requirements
 
-"AUTH0_SECRET=
-AUTH0_BASE_URL=http://localhost:3000
-AUTH0_ISSUER_BASE_URL=''
-AUTH0_CLIENT_ID=''
-AUTH0_CLIENT_SECRET=''
-AUTH0_AUDIENCE=
-AUTH0_SCOPE='openid profile'
-MONGODB_URI=
-DATABASE_NAME=Quotes
+- "AUTH0_SECRET=
+- AUTH0_BASE_URL=http://localhost:3000
+- AUTH0_ISSUER_BASE_URL=''
+- AUTH0_CLIENT_ID=''
+- AUTH0_CLIENT_SECRET=''
+- AUTH0_AUDIENCE=
+- AUTH0_SCOPE='openid profile'
+- MONGODB_URI=
+- DATABASE_NAME=Quotes"
 
 ## Contributing
 
