@@ -45,9 +45,10 @@ Open your browser and go to `http://localhost:3000` to access the application.
 - React
 - JavaScript/TypeScript
 - TailwindCSS for styling
+#
 - MongoDB &
 - Auth0 requirements
-
+##
 - "AUTH0_SECRET=
 - AUTH0_BASE_URL=http://localhost:3000
 - AUTH0_ISSUER_BASE_URL=''

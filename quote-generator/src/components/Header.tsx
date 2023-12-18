@@ -32,7 +32,7 @@ export default function Header() {
             </Link>
             <Link className='mr-[20px] bg-blue-700 p-2 rounded-[8px] transition-colors duration-300 hover:bg-blue-600' href="/quotes">Create Quotes
             </Link> 
-            <span className="mr-2">Welcome {user.name}</span>
+            <span className="mr-2">Welcome, {user.name}</span>
             <div className="relative inline-block text-left">
               <button onClick={handleDropdownToggle} className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white focus:outline-none">
                 <svg
