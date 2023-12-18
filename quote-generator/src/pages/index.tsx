@@ -49,6 +49,8 @@ export default function Index() {
           </title>
           <meta name='description' 
           content='Home Page for Be Inspired Quote Generator Website | Brigham Young University - Idaho'></meta>
+          <meta name='viewport' 
+          content='...'></meta>
         </Head>
       {user ? (
       <main className='p-4 font-mono'>
